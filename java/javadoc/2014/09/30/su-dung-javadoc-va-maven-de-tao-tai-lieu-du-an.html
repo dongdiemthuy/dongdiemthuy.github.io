@@ -14,11 +14,11 @@
 	<meta name="keywords" content="some, relevant, keywords, for, usage, in metatags" />
 
 
-  <meta name="description" content="Giới thiệu về Javadoc
+  <meta name="description" content="Javadoc là công cụ mạnh mẽ, dùng để sinh tài liệu API từ mã nguồn Java. Javadoc được đóng gói và phân phối trong bộ JDK, rất thuận tiện để lập trình viên tạo tài liệu API nhanh chóng cho dự án của mình. Javadoc không chỉ được các công cụ IDE như Eclipse, Netbeans gọi trực tiếp từ giao diện mà còn có thể tích hợp sử dụng với Maven – là công cụ quản lý và build dự án Java phổ biến nhất hiện này. Bài viết này giới thiệu về cú pháp Javadoc và cách thức sử dụng Javadoc với Maven dễ dàng thông qua plugin.
 ">
-  <meta property="og:description" content="Giới thiệu về Javadoc
+  <meta property="og:description" content="Javadoc là công cụ mạnh mẽ, dùng để sinh tài liệu API từ mã nguồn Java. Javadoc được đóng gói và phân phối trong bộ JDK, rất thuận tiện để lập trình viên tạo tài liệu API nhanh chóng cho dự án của mình. Javadoc không chỉ được các công cụ IDE như Eclipse, Netbeans gọi trực tiếp từ giao diện mà còn có thể tích hợp sử dụng với Maven – là công cụ quản lý và build dự án Java phổ biến nhất hiện này. Bài viết này giới thiệu về cú pháp Javadoc và cách thức sử dụng Javadoc với Maven dễ dàng thông qua plugin.
 " />
-  <meta name="twitter:description" content="Giới thiệu về Javadoc
+  <meta name="twitter:description" content="Javadoc là công cụ mạnh mẽ, dùng để sinh tài liệu API từ mã nguồn Java. Javadoc được đóng gói và phân phối trong bộ JDK, rất thuận tiện để lập trình viên tạo tài liệu API nhanh chóng cho dự án của mình. Javadoc không chỉ được các công cụ IDE như Eclipse, Netbeans gọi trực tiếp từ giao diện mà còn có thể tích hợp sử dụng với Maven – là công cụ quản lý và build dự án Java phổ biến nhất hiện này. Bài viết này giới thiệu về cú pháp Javadoc và cách thức sử dụng Javadoc với Maven dễ dàng thông qua plugin.
 " />
 
 <meta property="og:title" content="Sử dụng Javadoc với Maven để tạo tài liệu dự án" />
@@ -64,25 +64,170 @@
 		</p>
 	</header>
 	<section>
-		<h2>Giới thiệu về Javadoc</h2>
+		<p>Javadoc là công cụ mạnh mẽ, dùng để sinh tài liệu API từ mã nguồn Java. Javadoc được đóng gói và phân phối trong bộ JDK, rất thuận tiện để lập trình viên tạo tài liệu API nhanh chóng cho dự án của mình. Javadoc không chỉ được các công cụ IDE như Eclipse, Netbeans gọi trực tiếp từ giao diện mà còn có thể tích hợp sử dụng với Maven – là công cụ quản lý và build dự án Java phổ biến nhất hiện này. Bài viết này giới thiệu về cú pháp Javadoc và cách thức sử dụng Javadoc với Maven dễ dàng thông qua plugin.</p>
+
+<h2>Giới thiệu về Javadoc</h2>
 
 <h3>Javadoc là gì?</h3>
 
-<p><a href="http://en.wikipedia.org/wiki/Javadoc">Javadoc</a> là bộ công cụ sinh tài liệu</p>
+<p><a href="http://en.wikipedia.org/wiki/Javadoc">Javadoc</a> là <em>bộ công cụ sinh tài liệu</em> nằm trong <em>bộ công cụ phát triển Java</em> (<strong>JDK</strong>) của Oracle để tạo ra tài liệu theo định dạng HTML từ mã nguồn Java.
+Định dạng HTML tạo thuận lợi để từ một tài liệu có thể tham chiếu đến các tài liệu khác có liên quan. <em>Javadoc</em> được dùng để tạo ra tài liệu tham khảo hỗ trợ cho các lập trình viên.</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/javadoc-howto-work-diagram.png" alt="Hình 1. Cách javadoc làm việc"></p>
+
+<p>Một số môi trường phát triển tích hợp (Intergrated Development Enviroment - IDE) như Netbeans, Eclipse tự động tạo ra Javadoc ở định dạng HTML.</p>
+
+<p>Để tạo ra công cụ Javadoc, các nhà phát triển (trước đây là SUN) đã định nghĩa <a href="http://docs.oracle.com/javase/7/docs/jdk/api/javadoc/doclet/"><em>Doclet API</em></a> là cấu trúc interface, class mà <em>chương trình chuyển đổi tài liệu</em> cần cài đặt. <em>Chương trình chuyển đổi tài liệu</em> được gọi là <a href="http://docs.oracle.com/javase/1.5.0/docs/guide/javadoc/doclet/overview.html">Doclet</a>, là một chương trình viết bằng ngôn ngữ Java cài đặt Doclet API để xác định nội dung từ phần <em>chú thích tài liệu</em> trong mã nguồn Java và định dạng các nội dung này thành tài liệu HTML. Mặc định, công cụ Javadoc cung cấp một <em>chương trình chuyển đổi tài liệu</em> cài sẵn - gọi là Doclet tiêu chuẩn - để tạo tài liệu API theo định dạng HTML. Tuy nhiên bạn có thể tạo Doclet của riêng mình để tùy chỉnh các tài liệu sinh ra bởi Javadoc theo định dạng như mong muốn.</p>
 
 <h3>Cú pháp Javadoc</h3>
 
+<p>Một <em>chú thích tài liệu</em> Javadoc được đặt trong cặp dấu <code> /** ...*/</code>.</p>
+
+<p><em>Chú thích tài liệu</em> Javadoc nằm trước khai báo một lớp đối tượng hoặc phương thức. Bên trong một <em>chú thích tài liệu</em> bao gồm hai phần, phần thứ nhất mô tả bằng lời về chức năng của lớp đối tượng, phương thức; phần thứ hai là các thẻ @param, @return, @see,...   </p>
+
+<p>Ví dụ:</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/**
+ * Returns an Image object that can then be painted on the screen.  
+ *   The url argument must specify an absolute {@link URL}. The name 
+ *   argument is a specifier that is relative to the url argument.  
+ *   &lt;p&gt;  
+ *   This method always returns immediately, whether or not the  
+ *   image exists. When this applet attempts to draw the image on  
+ *   the screen, the data will be loaded. The graphics primitives  
+ *   that draw the image will incrementally paint on the screen. 
+ *
+ *   @param   url  an absolute URL giving the base location of the image  
+ *   @param   name the location of the image, relative to the url argument  
+ *
+ *   @return  the image at the specified URL
+ *
+ *   @see     Image 
+ */</span>
+ 
+ <span class="kd">public</span> <span class="n">Image</span> <span class="n">getImage</span><span class="o">(</span><span class="n">URL</span> <span class="n">url</span><span class="o">,</span> <span class="n">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">getImage</span><span class="o">(</span><span class="k">new</span> <span class="n">URL</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">name</span><span class="o">));</span>
+        <span class="o">}</span> 
+        <span class="k">catch</span> <span class="o">(</span><span class="n">MalformedURLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+<span class="o">}</span></code></pre></div>
+
+<p>Kết quả chạy Javadoc được hiển thị dưới đây:</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/javadoc-comment-example.jpg" alt="Hình 2. Ví dụ kết quả trả về của đoạn cú pháp Javadoc"></p>
+
+<p>Với các mô tả cho class, phương thức thì nên mô tả ngắn gọn ý nghĩa, mục đích của từng class, phương thức; lưu ý chỉ thực sự thêm một liên kết {@link} đến một mục API khác khi người dùng muốn click vào đó để biết thêm thông tin.   </p>
+
+<p>Với các Tag Comments, bao gồm các thẻ theo thứ tự sau:</p>
+
+<ul>
+<li>@author: xác định tác giả thực hiện các classes và interfaces.</li>
+<li><p>@version: có dạng %I%, %G%, với %I% được tăng lên khi chỉnh sửa tập tin, mặc định khi tạo là 1.1 sau khi chỉnh sửa thì tăng lên 1.2,
+%G% với định dạng mm/dd/yy, dùng khi chú thích cho các classes và interfaces.</p></li>
+<li><p>@param: mô tả các tham số, dùng khi chú thích cho các methods và constructors.</p></li>
+<li><p>@return: mô tả dữ liệu hay giá trị trả về, dùng khi chú thích cho methods.</p></li>
+<li><p>@exception (@throws): khai báo các ngoại lệ mà phương thức có thể ném ra.</p></li>
+<li><p>@see: khai báo liên kết đến tài liệu khác để xem thêm.</p></li>
+<li><p>@since: cho biết lớp đối tượng/phương thức bắt đầu từ phiên bản nào.</p></li>
+<li><p>@serial (@serialField hoặc @serialData).</p></li>
+<li><p>@deprecated: thông báo class hoặc phương thức đã lỗi thời và hướng dẫn cách dùng khác để thay thế.</p></li>
+</ul>
+
 <h3>Biên dịch Javadoc</h3>
+
+<p>Sau khi thực hiện viết javadoc trong các class của 1 project thì bạn có thể biên dịch javadoc để xem kết quả trả về là các trang html.</p>
+
+<p>Ví dụ sau đây minh họa cho các bước thực hiện viết javadoc với Netbeans 7.4. </p>
+
+<p>Project JavaDocUsage được thiết kế có 2 class là Person và Car nằm trong package javadocusage.beans.</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/car.jpg" alt="Hình 3. Javadoc cho class Car"></p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/person.jpg" alt="Hình 4. Javadoc cho class Person"></p>
+
+<p>Khi viết xong Javadoc, để biên dịch Javadoc thành các trang html, bạn chọn Project đang thực hiện, click chuột phải -&gt; Generate Javadoc như hình dưới.</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/generate.jpg" alt="Hình 5. Cách biên dịch Javadoc"></p>
+
+<p>Kết quả sau khi biên dịch, tài liệu API do Javadoc sinh ra được lưu trong thư mục project của bạn.</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/thumuc.jpg" alt="Hình 6. Thư mục chứa Javadoc"></p>
+
+<p>Bạn có thể sử dụng command line để chạy Javadoc để tạo ra tài liệu API tương tự như trên:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">javadoc -version -author -d ^
+D:<span class="se">\N</span>etBeansProjects<span class="se">\J</span>avaDocUsage<span class="se">\s</span>rc<span class="se">\j</span>avadocusage<span class="se">\b</span>eans <span class="k">*</span>.java</code></pre></div>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/cmd.jpg" alt="Hình 7. Chạy Command Line"></p>
+
+<p>Kết quả sau khi tạo ra Javadoc:</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/create1.jpg" alt="Hình 8. Kết quả"></p>
 
 <h2>Sử dụng Javadoc với Maven</h2>
 
+<p>Các bước thực hiện viết Javadoc trong các class tương tự như trên. Ở đây chỉ hướng dẫn cách biên dịch Javadoc với Maven.</p>
+
+<p>Đầu tiên bạn tải Maven về máy và thiết lập môi trường để chạy Maven.</p>
+
+<p>Sau đó bạn tạo một project Maven trong Netbeans rồi thực hiện việc tạo tài liệu Javadoc cho project Maven.</p>
+
 <h3>Ví dụ minh họa</h3>
+
+<p>Sử dụng lại ví dụ ở trên, tạo project Maven với tên gọi example-javadoc-with-maven. Sau khi thực hiện biên dịch chú thích tài liệu Javadoc cho hai class Car và Person ta thực hiện các bước sau:</p>
+
+<ul>
+<li>Tại thư mục Project Files: chọn file pom.xml để khai báo Maven plugins.</li>
+</ul>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/pom.png" alt="Hình 9. Khai báo maven plugins"></p>
+
+<ul>
+<li>Sau đó, nhấn chuột phải vào project chọn Custom -&gt; Goals.</li>
+</ul>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/goals.png" alt="Hình 10. Khai báo maven plugins"></p>
+
+<ul>
+<li>Tại đây, bạn điền plugin của javadoc vào và nhấn OK.</li>
+</ul>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/goalsjavadoc.png" alt="Hình 11. Plugins của javadoc"></p>
+
+<p>Maven Javadoc Plugin có 14 goals nhưng ta chỉ sử dụng một số goals phổ biến như sau:</p>
+
+<ul>
+<li><p>javadoc:javadoc</p></li>
+<li><p>javadoc:test-javadoc</p></li>
+<li><p>javadoc:jar</p></li>
+<li><p>javadoc:test-jar</p></li>
+</ul>
+
+<p>Sau khi click vào Ok, Maven Javadoc Plugin sẽ thực hiện biên dịch và tạo tài liệu API. Nếu không gặp lỗi gì, quá trình biên dịch kết thúc với thông báo “BUILD SUCCESS”.</p>
 
 <h3>Khai báo maven plugins</h3>
 
+<p>Khai báo maven plugins được quy định nằm trong file pom.xml của project.</p>
+
+<div class="highlight"><pre><code class="language-java" data-lang="java"><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">apache</span><span class="o">.</span><span class="na">maven</span><span class="o">.</span><span class="na">plugins</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">maven</span><span class="o">-</span><span class="n">javadoc</span><span class="o">-</span><span class="n">plugin</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">2.10</span><span class="o">.</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">dependency</span><span class="o">&gt;</span></code></pre></div>
+
 <h3>Kết quả chạy ví dụ</h3>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">function</span> <span class="nx">sayHello</span><span class="p">()</span> <span class="p">{}</span></code></pre></div>
+<p>Sau khi biên dịch, Maven Javadoc Plugin sẽ chạy và sinh ra tài liệu API lưu trong thư mục target/site/apidocs bên trong thư mục gốc project của bạn:</p>
+
+<p><img src="/img/su-dung-javadoc-va-maven-de-tao-tai-lieu-du-an/result1.png" alt="Hình 10. Kết quả chạy chương trình"></p>
+
+<h2>Kết luận</h2>
+
+<p>Bài viết giới thiệu về cách thức sử dụng Javadoc để tạo các tài liệu chú thích cho dự án của mình đặc biệt là dự án sử dụng Maven.
+Đây là công cụ cần thiết đối với những dự án lớn để người lập trình có thể tạo và chia sẻ tài liệu API cho nhau.
+Các bạn có thể tải mã nguồn của ví dụ dùng <a href="https://github.com/dongdiemthuy/example-javadoc-with-maven">Javadoc với Maven</a> để chạy thử.</p>
 
 	</section>
 	<footer>
