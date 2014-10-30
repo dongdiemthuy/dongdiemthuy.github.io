@@ -72,16 +72,16 @@ Trong Template có thể chứa:</p>
 
 <ul>
 <li>Directive: </li>
-<li>Markup: các ký hiệu  để ràng buộc biểu thức với các phần tử.</li>
-<li>Filter: định dạng dữ liệu để hiển thị kết quả.</li>
-<li>Form control: thể hiện ở các giá trị nhập vào của người dùng.</li>
+<li>Markup: các ký hiệu  để gắn kết biểu thức với các phần tử.</li>
+<li>Filter: định dạng dữ liệu.</li>
+<li>Form control: kiểm tra tính hợp lệ dữ liệu do người dùng nhập vào.</li>
 </ul>
 
-<p>Ở những ứng dụng đơn giản thì Template gồm HTML, CSS, directive có thể nằm trong một trang HTML nhưng với những ứng dụng lớn, để có thể hiển thị nhiều lần trong một trang duy nhất thì phải sử dụng các phân đoạn trong Template trong các trang HTML riêng biệt. Bạn có thể dùng chỉ thị ng-View để tải các &quot;phân đoạn&quot; thông qua các $route.</p>
+<p>Ở những ứng dụng đơn giản thì Template gồm HTML, CSS, directive có thể nằm trong một trang HTML nhưng với những ứng dụng lớn, để có thể hiển thị nhiều lần trong một trang duy nhất thì phải sử dụng các phân đoạn Template được lưu trong các trang HTML riêng biệt. Bạn có thể dùng chỉ thị ng-view để tải các &quot;phân đoạn&quot; thông qua các $route.</p>
 
-<p>Có một số cách để đưa Template vào View, tuy nhiên trong AngularJS có 2 cách thông dụng nhất đó là ng-include và ngRoute.</p>
+<p>Trong AngularJS có 2 cách thông dụng để đưa Template vào View đó là sử dụng ng-include và ngRoute.</p>
 
-<p>Thay vì xác định nơi hiển thị mà ta muốn trên giao diện chính thì AngularJS cho phép xác định Template trong 1 thẻ script. Để sử dụng Template được định nghĩa trong thẻ script chúng ta thêm chỉ thị ng-include với id của template đó. Ví dụ: </p>
+<p>Thay vì để Template tại vị trí nào đó trên giao diện chính thì AngularJS có thể định nghĩa Template trong 1 thẻ script. Sau đó chỉ cần dùng chỉ thị ng-include với id của template tại vị trí trên giao diện chính. Ví dụ: </p>
 
 <p>File person.html</p>
 
@@ -92,21 +92,18 @@ Trong Template có thể chứa:</p>
              <span class="p">{{</span><span class="nx">person</span><span class="p">.</span><span class="nx">last</span><span class="p">}}</span>   
     <span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
 </span> <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">controller</span><span class="o">=</span><span class="s2">"PersonCtrl"</span><span class="o">&gt;</span>
-        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"person in person"</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">include</span><span class="o">=</span><span class="s2">"'person.html'"</span><span class="o">&gt;</span>
-             <span class="p">{{</span><span class="nx">person</span><span class="p">.</span><span class="nx">first</span><span class="p">}}</span>  <span class="p">,</span> 
-             <span class="p">{{</span><span class="nx">person</span><span class="p">.</span><span class="nx">middle</span><span class="p">}}</span>  <span class="p">,</span>
-             <span class="p">{{</span><span class="nx">person</span><span class="p">.</span><span class="nx">last</span><span class="p">}}</span>   
+        <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"person in persons"</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">include</span><span class="o">=</span><span class="s2">"'person.html'"</span><span class="o">&gt;</span>
         <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
 </span> <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
 </span><span class="o">&lt;</span><span class="sr">/body&gt;</span></code></pre></div>
 
-<p>Trong đó ng-repeat= &quot;person in person&quot; là chỉ thị lặp trong AngularJS. Các biểu thức  {{person.first}} , {{person.middle}} , {{person.last}}  sẽ được thay thế bởi giá trị của biểu thức. Các biểu thức này nằm trong PersonCtrl khai báo ở app.js.</p>
+<p>Trong đó ng-repeat= &quot;person in persons&quot; là chỉ thị lặp trong AngularJS. Các biểu thức  {{person.first}} , {{person.middle}} , {{person.last}}  sẽ được thay thế bởi giá trị của biểu thức. Các biểu thức này nằm trong PersonCtrl khai báo ở app.js.</p>
 
 <p>File app.js</p>
 
 <div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="kd">var</span> <span class="nx">myApp</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s2">"myApp"</span><span class="p">,[]);</span>
 <span class="nx">myApp</span><span class="p">.</span><span class="nx">controller</span> <span class="p">(</span><span class="s1">'PersonCtrl'</span><span class="p">,[</span><span class="s1">'$scope'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">$scope</span><span class="p">.</span><span class="nx">person</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">persons</span> <span class="o">=</span> <span class="p">[</span>
                      <span class="p">{</span><span class="na">first</span><span class="p">:</span> <span class="s2">"Mary"</span><span class="p">,</span> <span class="na">middle</span><span class="p">:</span> <span class="s2">"Jar"</span><span class="p">,</span> <span class="na">last</span><span class="p">:</span> <span class="s2">"Kenny"</span><span class="p">},</span>
                      <span class="p">{</span><span class="na">first</span><span class="p">:</span> <span class="s2">"Lulu"</span><span class="p">,</span> <span class="na">middle</span><span class="p">:</span> <span class="s2">"Hanal"</span><span class="p">,</span> <span class="na">last</span><span class="p">:</span> <span class="s2">"Opal"</span><span class="p">},</span>
                      <span class="p">{</span><span class="na">first</span><span class="p">:</span> <span class="s2">"David"</span><span class="p">,</span> <span class="na">middle</span><span class="p">:</span> <span class="s2">"John"</span><span class="p">,</span> <span class="na">last</span><span class="p">:</span> <span class="s2">"Smith"</span><span class="p">},</span>
@@ -126,9 +123,9 @@ Trong Template có thể chứa:</p>
 
 <h3>Multiple Views, Routing and Layout Template</h3>
 
-<p>Các route trong AngularJS được khai báo thông qua $routeProvider <a href="https://docs.angularjs.org/api/ngRoute/provider/$routeProvider">$routeProvider</a>. Ví dụ sau đây sẽ minh họa sự kết hợp của Views, Routing và Layout Template.</p>
+<p>Các route trong AngularJS được khai báo thông qua <a href="https://docs.angularjs.org/api/ngRoute/provider/$routeProvider">$routeProvider</a>. Ví dụ sau đây sẽ minh họa sự kết hợp của Views, Routing và Layout Template.</p>
 
-<p>Ví dụ minh họa hiển thị một Danh sách gồm Home, About, Contact, khi người dùng nhất link chọn thì sẽ hiển thị nội dung của từng mục Home, About, Contact.</p>
+<p>Ví dụ minh họa hiển thị một Danh sách gồm Home, About, Contact, khi người dùng nhấn link chọn thì sẽ hiển thị nội dung của từng mục Home, About, Contact.</p>
 
 <p>File index.html</p>
 
@@ -162,7 +159,7 @@ Trong Template có thể chứa:</p>
 </span>    <span class="o">&lt;</span><span class="sr">/body</span><span class="err">&gt;
 </span><span class="o">&lt;</span><span class="sr">/html&gt;</span></code></pre></div>
 
-<p>Trong đó ngView là chỉ thị được thêm vào $route service bao gồm các template hiện tại đã được bố trí vào các layout ở index.html. Khi route thay đổi thì view thay đổi theo kèm theo các cấu hình của $route service. Nghĩa là ứng với đường dẫn route đến Home hay About thì sẽ hiển thị view ở trang đó lên màn hình.</p>
+<p>Trong đó ng-view là chỉ thị được thêm vào $route service bao gồm các template hiện tại đã được bố trí vào các layout ở index.html. Khi route thay đổi thì view thay đổi theo kèm theo các cấu hình của $route service. Nghĩa là ứng với đường dẫn route đến Home hay About thì sẽ hiển thị view ở trang đó lên màn hình.</p>
 
 <p>File app.js</p>
 
@@ -197,15 +194,13 @@ Trong Template có thể chứa:</p>
     <span class="nx">$scope</span><span class="p">.</span><span class="nx">messageContact</span> <span class="o">=</span> <span class="s1">'This is Contact screen'</span><span class="p">;</span>
 <span class="p">});</span></code></pre></div>
 
-<p>Đối tượng dịch vụ service dễ dàng kết nối controller, view template và url hiện tại.</p>
+<h3>Cú pháp để thêm routing và hiển thị</h3>
 
-<p>Cú pháp để thêm routing và hiển thị.</p>
-
-<p>Ta gọi hàm config() để có được $provide, $routeProvider cung cấp các phương thức .when() để xác đinh các routing cho ứng dụng, phương thức .otherwise() để xác định routing mặc định. </p>
+<p>Ta gọi hàm config() để có được $routeProvider. Các $routeProvider cung cấp các phương thức .when() để xác đinh các routing cho ứng dụng, phương thức .otherwise() để xác định routing mặc định. </p>
 
 <p>Trong đoạn mã trên định nghĩa 3 url là /home, /about, /contact với các template tương ứng là templates/home.html, templates/about.html, templates/contact.html.</p>
 
-<p>Khi mở index.html#/Contact trên trình duyệt thì AngularJS tự động chuyển đến route mà ta đã cấu hình trước đó và tải lên home.html, about.html... và gọi HomeController, AboutController... để hiện thị nội dung.</p>
+<p>Khi mở index.html#/Home trên trình duyệt thì AngularJS tự động chuyển đến route mà ta đã cấu hình trước đó và tải lên home.html và gọi HomeController để hiện thị nội dung. Tương tự cho About và Contact.</p>
 
 <p>File Templates/home.html</p>
 
@@ -220,7 +215,7 @@ Trong Template có thể chứa:</p>
 
 <p><img src="/img/template-trong-angularjs/result.png" alt="Hình 1. Kết quả chạy chương trình"></p>
 
-<p>Tóm lại, template tiện dụng khi muốn tách bố cục để hiện thị các phần của giao diện người dùng phù hợp với mục đích muốn hiển thị. Multiple Views, Routing và Layout Template có thể giúp bạn xây dựng ứng dụng có hiệu quả cao.</p>
+<p>Bài viết này giới thiệu Template trong AngularJS với mục đích dùng Template để tránh việc lặp đi lặp lại dữ liệu giống nhau. Để làm được việc này ta tách View thành các template riêng lẻ rồi sau đó dùng chỉ thị ng-include để đưa template vào View hiển thị cho người dùng. Ngoài ra Template còn được sử dụng như một thành phần trong định nghĩa $route bên trong khai báo $routeProvider.</p>
 
 <h2>Tài liệu tham khảo</h2>
 
