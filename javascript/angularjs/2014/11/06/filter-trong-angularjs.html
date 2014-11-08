@@ -84,7 +84,7 @@ Filter trong AngularJS được sử dụng với mục đích định dạng c�
 
 <p>Ví dụ: </p>
 
-<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span><span class="nx">friend</span> <span class="k">in</span> <span class="nx">friends</span> <span class="o">|</span> <span class="nx">filter</span><span class="err">:</span> <span class="nx">query</span> <span class="o">|</span><span class="nx">orderBy</span><span class="err">:</span> <span class="s1">'name'</span><span class="p">}}</span></code></pre></div>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{{</span><span class="nx">friend</span> <span class="k">in</span> <span class="nx">friends</span> <span class="o">|</span> <span class="na">filter</span><span class="p">:</span> <span class="nx">query</span> <span class="o">|</span><span class="na">orderBy</span><span class="p">:</span> <span class="s1">'name'</span><span class="p">}}</span></code></pre></div>
 
 <ul>
 <li>Trong Javascript</li>
@@ -134,6 +134,12 @@ Filter trong AngularJS được sử dụng với mục đích định dạng c�
       <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">friend</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span> <span class="p">{{</span><span class="nx">friend</span><span class="p">.</span><span class="nx">age</span><span class="p">}}</span><span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;
 </span>    <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
 </span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">controller</span><span class="o">=</span><span class="s2">"MyCtrl"</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="nx">h3</span><span class="o">&gt;</span><span class="nx">Custom</span> <span class="nx">Filter</span><span class="o">&lt;</span><span class="sr">/h3</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="nx">ul</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"friend in friends | filter: filterFunction | orderBy: 'name' "</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">li</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">friend</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span> <span class="p">({{</span><span class="nx">friend</span><span class="p">.</span><span class="nx">age</span><span class="p">}})</span><span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;
+</span>      <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
 </span><span class="o">&lt;</span><span class="sr">/body&gt;</span></code></pre></div>
 
 <p>File script.js</p>
@@ -153,6 +159,9 @@ Filter trong AngularJS được sử dụng với mục đích định dạng c�
         <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Marry"</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">22</span><span class="p">},</span>
         <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s2">"Malus"</span><span class="p">,</span> <span class="na">age</span><span class="p">:</span> <span class="mi">22</span><span class="p">},</span>
     <span class="p">];</span>
+    <span class="nx">$scope</span><span class="p">.</span><span class="nx">filterFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">element</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">element</span><span class="p">.</span><span class="nx">name</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="sr">/^Ma/</span><span class="p">)</span> <span class="p">?</span> <span class="kc">true</span> <span class="p">:</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">};</span>
 <span class="p">});</span></code></pre></div>
 
 <iframe src="http://embed.plnkr.co/W1mXpJeE7ydAiiynQymo/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="350px" width="100%"></iframe>
@@ -173,7 +182,7 @@ Filter trong AngularJS được sử dụng với mục đích định dạng c�
 
 <h2>Filter trong Controller, Service, Derective</h2>
 
-<p>Cách đặt tên: <filterName>Filter</p>
+<p>Cách đặt tên: filterName-Filter</p>
 
 <p>Ví dụ: numberFilter sẽ bơm các bộ lọc số.</p>
 
