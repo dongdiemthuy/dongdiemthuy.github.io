@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Filter trong AngularJS | Dong Diem Thuy's Blog</title>
+        
+          <meta name="author" content="dongdiemthuy">
+        
+        <meta name="title" content="Filter trong AngularJS" >
+        <link rel="icon" type="image/png" href="/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+	<meta name="keywords" content="some, relevant, keywords, for, usage, in metatags" />
+
+
+  <meta name="description" content="Giới thiệu về Filter trong AngularJS
+">
+  <meta property="og:description" content="Giới thiệu về Filter trong AngularJS
+" />
+  <meta name="twitter:description" content="Giới thiệu về Filter trong AngularJS
+" />
+
+<meta property="og:title" content="Filter trong AngularJS" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="/sharer.png" />
+<meta property="og:url" content="/javascript/angularjs/2014/11/14/filter-trong-angularjs%201.html" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Filter trong AngularJS" />
+<meta name="twitter:image" content="/sharer.png" />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/monokai.css">
+    </head>
+    <body class="wrap">
+      <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <header>
+  <h1 class="site-title"><a href="/">Dong Diem Thuy's Blog</a></h1>
+  <nav class="main-nav">
+    <div class="grid">
+      <ul>
+        <li><a href="/">Home</a></li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
+      <section class="content">
+        <div id="home" class="grid post">
+<div class="unit whole">
+<article>
+	<header>
+		<h1>Filter trong AngularJS</h1>
+		<p class="meta">
+			<time class="timeago postlist-meta" datetime="2014-11-14">November 14, 2014</time>
+			<a class="button blue share" href="#" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+window.location.href,'_blank','height=300,width=600');return false;">Share on fb
+			</a>
+			
+				<a class="button blue share" href="#" target="_blank" onclick="window.open('https://twitter.com/share?url='+window.location.href,'_blank','height=300,width=600');return false;">Share on twitter
+				</a>
+			
+		</p>
+	</header>
+	<section>
+		<h2>Giới thiệu về Filter trong AngularJS</h2>
+
+<p><a href="https://docs.angularjs.org/guide/filter">Filter</a> trong AngularJS được sử dụng để lọc dữ liệu và format giá trị hiển thị cho người dùng.</p>
+
+<p>Có một số filter được xây dựng sẵn để người lập trình làm việc với number, string...</p>
+
+<h2>Làm việc với Filter</h2>
+
+<p>Có 2 cách làm việc với filter là dùng trong expression HTML (DOM) hoặc cập nhật dữ liệu trực tiếp tại controller, service.</p>
+
+<p>Phần dưới sẽ mô tả chi tiết cách làm việc của Filter.</p>
+
+<p>Cú pháp dùng trong DOM:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{{</span> <span class="nx">expression</span> <span class="o">|</span> <span class="nx">filter</span> <span class="p">}}</span></code></pre></div>
+
+<p>Ta cũng có thể dùng nhiều filter trong một biểu thức, được ngăn cách nhau bởi | </p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{{</span> <span class="nx">expression</span> <span class="o">|</span> <span class="nx">filter1</span> <span class="o">|</span> <span class="nx">filter2</span> <span class="o">|</span> <span class="nx">filter3</span> <span class="p">}}</span></code></pre></div>
+
+<p>Hoặc với đối số: </p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{{</span> <span class="nx">expression</span> <span class="o">|</span> <span class="na">filter</span><span class="p">:</span><span class="na">argument1</span><span class="p">:</span><span class="na">argument2</span><span class="p">:...</span> <span class="p">}}</span></code></pre></div>
+
+<p>Khi dùng với Service, Controller: </p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'FilterInControllerModule'</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'FilterController'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'$filter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$filter</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">filteredArray</span> <span class="o">=</span> <span class="nx">$filter</span><span class="p">(</span><span class="s1">'filter'</span><span class="p">)(</span><span class="nx">array</span><span class="p">,</span> <span class="nx">argument1</span><span class="p">,</span> <span class="nx">argument2</span><span class="p">,</span> <span class="p">...);</span>
+<span class="p">}]);</span></code></pre></div>
+
+<h2>Một số Filter có sẵn trong AngularJS</h2>
+
+<ul>
+<li>currency: định dạng số sang định dạng tiền tệ, filter chọn currency symbol là mặc định, nếu không có tham số gì kèm theo.</li>
+<li>number: chuyển đổi thành chuỗi số, tách bằng dấu phẩy, numberFilter cũng tùy chọn kích thước số thập phân là bao nhiêu chữ số sau dấu phẩy.</li>
+<li>lowercase: chuyển đổi thành chuỗi thường.</li>
+<li>uppercase: chuyển đổi thành chuối hoa.</li>
+<li>json: đối tượng JSON hoặc array.</li>
+<li>date: đối tượng ngày, định dạng gồm short, medium, long.</li>
+<li>limitTo: trả lại kết quả là 1 substring có thể bắt đầu hoặc kết thúc 1 chuỗi.</li>
+<li>orderBy: lọc trên mảng và sắp xếp.</li>
+<li>filter: lọc 1 mảng theo:
+String: nếu có biểu thức chuỗi, AngularJS sẽ tìm từ khóa trong từng đối tượng của mảng và nếu tìm thấy, phần tử sẽ được gọi. (có thể tìm phủ định bằng ! và từ khóa kèm theo).
+Object: trả về từng phần tử trong mảng.
+Function: linh động cho nhiều lựa chọn, việc filter có thể tùy ý người lập trình.</li>
+</ul>
+
+<p>Ví dụ minh họa:</p>
+
+<p><iframe src="http://embed.plnkr.co/HnGNRyF6E8yvQIpEvWfi/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="350px" width="100%"></iframe></p>
+
+<h3>Ví dụ về filter với String, Object, Function.</h3>
+
+<p>Tại file index.html có 3 khối lệnh div tương ứng cho việc lọc dữ liệu với expression là String, Object và Function.
+Tại đây filter với String thì ta sử dụng filter với điều kiện filter:stringname, filter với Object thì ta sử dụng filter với điều kiện filter:{name:query, age:&#39;22&#39;} và filter với Function dùng filter: filterFunction, filterFunction được định nghĩa trong file javascript.</p>
+
+<p>File script.js thì ta tạo 1 controller chứa mảng đối tượng friends gồm tên và tuổi. Ta định nghĩa thêm filterFunction với điều kiện là name bắt đầu bằng &quot;Ma&quot;.</p>
+
+<p>Kết quả sẽ hiển thị như sau:</p>
+
+<iframe src="http://embed.plnkr.co/W1mXpJeE7ydAiiynQymo/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="350px" width="100%"></iframe>
+
+<h3>Fliter với Controller, Service</h3>
+
+<p>AngularJS cho phép ta dùng Filter ở bất kỳ nơi nào ta muốn với Depedency Injection, không cần truy cập vào DOM hoặc UI, ta có thể sử dụng business logic của Filter trong Javascript.</p>
+
+<p>Bất kỳ Filter cho dù được xây dựng hoặc có sẵn, có thể được injected vào services hoặc controller bằng tên &quot;Filter&quot; ở cuối mỗi tên bộ lọc.
+&LT;filterName&GT;Filter</p>
+
+<p>Ví dụ: currencyFilter, numberFilter...</p>
+
+<p>Ví dụ sau có filterFilter lọc mảng theo điều kiện , filterFilter được gọi trực tiếp trong Controller, bằng cách này thì Controller có thể gọi filter khi cần.</p>
+
+<p>File index.html</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">body</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">app</span><span class="o">=</span><span class="s2">"FilterInController"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">controller</span><span class="o">=</span><span class="s2">"FilterController as ctrl"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="nx">All</span> <span class="nx">entries</span><span class="err">:</span>
+      <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"entry in ctrl.array"</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">entry</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span> <span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+      <span class="nx">Entries</span> <span class="nx">that</span> <span class="nx">contain</span> <span class="nx">an</span> <span class="s2">"a"</span><span class="err">:</span>
+      <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"entry in ctrl.filteredArray"</span><span class="o">&gt;</span><span class="p">{{</span><span class="nx">entry</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span> <span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/body&gt;</span></code></pre></div>
+
+<p>File script.js</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'FilterInControllerModule'</span><span class="p">,</span> <span class="p">[]).</span>
+    <span class="nx">controller</span><span class="p">(</span><span class="s1">'FilterController'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'filterFilter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">filterFilter</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">array</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Marry'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Anna'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Hannah'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Chloe'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Lisa'</span><span class="p">},</span>
+        <span class="p">{</span><span class="na">name</span><span class="p">:</span> <span class="s1">'Herry'</span><span class="p">}</span>
+      <span class="p">];</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">filteredArray</span> <span class="o">=</span> <span class="nx">filterFilter</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">array</span><span class="p">,</span> <span class="s1">'a'</span><span class="p">);</span>
+    <span class="p">}]);</span></code></pre></div>
+
+<iframe src="http://embed.plnkr.co/cwYyazgiOKjBR9BcemGY/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="200px" width="100%"></iframe>
+
+<h3>Custom Filter</h3>
+
+<p>AngularJS cho phép người dùng tự tạo các Filter để sử dụng theo từng mục đích khác nhau. Một Custom Filter là một function, trong đó có một đầu vào như một đối số. Function được gọi với giá trị mà các giá trị mà Filter đã áp dụng trước đó.</p>
+
+<p>Cấu trúc :</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">app</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">};</span>
+<span class="p">});</span></code></pre></div>
+
+<p>Ví dụ 1:</p>
+
+<p>Đoạn code trên thực hiện việc in hoa 1 chuỗi kí tự do người dùng nhập vào:</p>
+
+<iframe src="http://embed.plnkr.co/eVT2Xz0niCQnEqtz4fZN/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="200px" width="100%"></iframe>
+
+<h2>Stateful Filter</h2>
+
+<p>Là một tính năng mới của AngularJS 1.3. Nó cho phép bạn xác định bộ lọc có thể phụ thuộc vào những thứ khác mà giá trị, đối tượng do bên kia tự định nghĩa. Stateful ảnh hưởng đến hiệu suất tổng thể của ứng dụng nên hạn chế sử dụng. Hầu hết các stateful đều có thể chuyển sang stateless. Ở Stateful Filter (Filter có trạng thái) ta có thể đưa thêm tham số dưới dạng bơm các phụ thuộc. Mặc định nếu không sử dụng stateful thì ta khai báo là false.</p>
+
+<p>Filter chuyển đổi dữ liệu:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'StatefulFilterExampleModule'</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">'StatefulExampleFilter'</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">argument</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// Do your logic</span>
+        <span class="p">...</span>
+        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+     <span class="p">}</span>
+<span class="p">});</span></code></pre></div>
+
+<p>Dùng với service:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'StatefulFilterExampleModule'</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">'StatefulExampleFilter'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'service'</span><span class="p">,</span>  <span class="kd">function</span><span class="p">(</span><span class="s1">'service'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">argument</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// Do your logic</span>
+        <span class="p">...</span>
+        <span class="nx">data</span>  <span class="o">+=</span> <span class="nx">service</span><span class="p">.</span><span class="nx">data</span>
+        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+     <span class="p">}</span>
+<span class="p">}]);</span></code></pre></div>
+
+<p>Để đảm bảo dữ liệu từ service đã được lấy ra lọc thì ta cần khai báo bộ lọc này là stateful Filter.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">angular</span><span class="p">.</span><span class="nx">module</span><span class="p">(</span><span class="s1">'StatefulFilterExampleModule'</span><span class="p">,</span> <span class="p">[])</span>
+<span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="s1">'StatefulExampleFilter'</span><span class="p">,</span> <span class="p">[</span><span class="s1">'service'</span><span class="p">,</span>  <span class="kd">function</span><span class="p">(</span><span class="s1">'service'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">filterFunction</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">input</span><span class="p">,</span> <span class="nx">argument</span><span class="p">)</span> <span class="p">{</span>
+          <span class="c1">// Do your logic</span>
+        <span class="p">...</span>
+        <span class="nx">data</span>  <span class="o">+=</span> <span class="nx">service</span><span class="p">.</span><span class="nx">data</span>
+        <span class="k">return</span> <span class="nx">data</span><span class="p">;</span>
+     <span class="p">};</span>
+    <span class="nx">filterFunction</span><span class="p">.</span><span class="nx">$stateful</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">filterFunction</span><span class="p">;</span>
+<span class="p">}]);</span></code></pre></div>
+
+<p>Ví dụ về stateful Fliter (tham khảo): <a href="https://docs.angularjs.org/guide/filter">Stateful Filter</a> </p>
+
+<p>Bài viết này giới thiệu Filter trong AngularJS với mục đích dùng Filter để định dạng các giá trị của một biểu thức để hiển thị kết quả, nó thường được dùng trong việc lọc và sắp xếp danh sách. Có 2 cách dùng Filter là hiển thị trong DOM hoặc dùng Filter với Controller, Service. Người lập trình có thể tự định nghĩa các Filter riêng bằng cách viết các filter function trong file javascript để sử dụng.</p>
+
+<h2>Tài liệu tham khảo</h2>
+
+<ul>
+<li><a href="https://docs.angularjs.org/guide/filter">Filter</a></li>
+<li><a href="https://docs.angularjs.org/guide/filter">Stateful Filter</a> </li>
+<li><a href="https://docs.angularjs.org/api/ng/filter/filter">Using filters</a></li>
+<li><a href="https://docs.angularjs.org/api/ng/service/$filter">$filter</a></li>
+<li><a href="http://toddmotto.com/everything-about-custom-filters-in-angular-js/">Custom Filter</a></li>
+</ul>
+
+	</section>
+	<footer>
+		
+	</footer>
+</article>
+</div>
+</div>
+      </section>
+      <footer class="grid site-footer">
+        <p>&copy;&nbsp;Dong Diem Thuy's Blog</p>
+        <!--<p><small>Powered by <a href="http://jekyllrb.com" target="_blank"><em>Jekyll</em></a> using <a href="http://bitwiser.in/bitwiser/" target="_blank"><em>Bitwiser</em></a> theme.</small></p>-->
+      </footer>
+      
+      <script src="/js/headroom.min.js"></script>
+      <script>
+        var menu, headroom;
+        function stickyHeader(){
+          menu = document.querySelector('.main-nav');
+          var headroom = new Headroom(menu);
+          headroom.init();
+        }
+        window.onload = stickyHeader;
+      </script>
+    </body>
+</html>
