@@ -76,6 +76,8 @@
 
 <p><img src="/img/i18n-and-l10n-trong-angularjs/i18n_and_l10n_example.png" alt="Hình 1. Minh họa khái niệm i18n và l10n"></p>
 
+<p>Trong hình minh họa ở trên ta thấy form chuẩn chung sẽ gồm PRODUCT<em>NAME và định dạng ngày tháng năm là 2014-12-15. Sự quốc tế hóa thể hiện khi họ sử dụng form tiếng Anh dể chuyển từ product name chuyển thành PRODUCT</em>NAME và Mon, 15 Dec, 2014 chuyển thành 2014-12-15. Sự bản địa hóa thể hiện ở chỗ là từ PRODUCT_NAME ở form chuẩn chung, ta có thể bản địa hóa ra nhiều ngôn ngữ khác nhau ví dụ tiếng Việt, tiếng Anh, tiếng Pháp tương ứng với Tên sản phẩm, Product name, nom du produit. Tương tự đối với định dạng ngày tháng năm từ form chuẩn chung, cũng có thể bản địa ra tương ứng là Thứ 2, 15/12/2014; Mon, 15 Dec, 2014; Lun 12 desceember 2014. </p>
+
 <h2>2.  i18n, l10n trong AngularJS</h2>
 
 <p>AngularJS hỗ trợ i18n, l10n với định dạng date, number và currency filter. </p>
@@ -101,7 +103,7 @@ Bạn có thể cài gói các tập tin locale mong muốn bằng cách kết h
 
 <p>Ví dụ: Để tạo ra một tập tin angular.js có chứa quy tắc nội địa hóa cho miền địa phương ở Đức, bạn có thể làm như sau:</p>
 
-<p>cat angular.js i18n/angular-locale<em>de-de.js &gt; angular</em>de-de.js</p>
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">cat</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">js</span> <span class="nx">i18n</span><span class="o">/</span><span class="nx">angular</span><span class="o">-</span><span class="nx">locale_de</span><span class="o">-</span><span class="nx">de</span><span class="p">.</span><span class="nx">js</span> <span class="o">&gt;</span> <span class="nx">angular_de</span><span class="o">-</span><span class="nx">de</span><span class="p">.</span><span class="nx">js</span></code></pre></div>
 
 <p>Khi các ứng dụng có chứa angular_de-de.js mà không phải angular.js , AngularJS được tự động cấu hình sẵn với các quy định nội địa hóa các địa phương ở Đức.</p>
 
@@ -245,10 +247,10 @@ Bạn có thể cài gói các tập tin locale mong muốn bằng cách kết h
 
 <h3>3.2 Bản địa hóa ngôn ngữ</h3>
 
-<p>///</p>
+<p>Với một ứng dụng web, có thể cần phải bản địa hóa nó sang các ngôn ngữ khác nhau, ta không cần phải sao chép các mã HTML để tạo ra nhiều ngôn ngữ, với AngularJS hỗ trợ angular-l10n để thực hiện điều đó.</p>
 
 <p>Bài viết này giới thiệu về quốc tế hóa và bản địa hóa trong AngularJS cùng với cách áp dụng i18n cũng như l10n để bản địa hóa giao diện, ngôn ngữ.
-Ngoài ra có những lưu ý khi sử dụng i18n trong AngularJS, bản địa hóa với ngPluralize, </p>
+Ngoài ra có những lưu ý khi sử dụng i18n trong AngularJS, bản địa hóa với ngPluralize.</p>
 
 <h2>Tài liệu tham khảo</h2>
 
