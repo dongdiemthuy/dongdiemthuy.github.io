@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Example Directive on Angularjs | Dong Diem Thuy's Blog</title>
+        
+          <meta name="author" content="dongdiemthuy">
+        
+        <meta name="title" content="Example Directive on Angularjs" >
+        <link rel="icon" type="image/png" href="/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+	<meta name="keywords" content="some, relevant, keywords, for, usage, in metatags" />
+
+
+  <meta name="description" content="Áp dụng directive vào xây dựng ứng dụng đơn giản.
+">
+  <meta property="og:description" content="Áp dụng directive vào xây dựng ứng dụng đơn giản.
+" />
+  <meta name="twitter:description" content="Áp dụng directive vào xây dựng ứng dụng đơn giản.
+" />
+
+<meta property="og:title" content="Example Directive on Angularjs" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="/sharer.png" />
+<meta property="og:url" content="/javascript/angularjs/2015/01/01/example-directive-angularjs.html" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Example Directive on Angularjs" />
+<meta name="twitter:image" content="/sharer.png" />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/monokai.css">
+    </head>
+    <body class="wrap">
+      <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <header>
+  <h1 class="site-title"><a href="/">Dong Diem Thuy's Blog</a></h1>
+  <nav class="main-nav">
+    <div class="grid">
+      <ul>
+        <li><a href="/">Home</a></li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
+      <section class="content">
+        <div id="home" class="grid post">
+<div class="unit whole">
+<article>
+	<header>
+		<h1>Example Directive on Angularjs</h1>
+		<p class="meta">
+			<time class="timeago postlist-meta" datetime="2015-01-01">January 1, 2015</time>
+			<a class="button blue share" href="#" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+window.location.href,'_blank','height=300,width=600');return false;">Share on fb
+			</a>
+			
+				<a class="button blue share" href="#" target="_blank" onclick="window.open('https://twitter.com/share?url='+window.location.href,'_blank','height=300,width=600');return false;">Share on twitter
+				</a>
+			
+		</p>
+	</header>
+	<section>
+		<h2>Áp dụng directive vào xây dựng ứng dụng đơn giản.</h2>
+
+<p>Directive trong Angularjs có thể được sử dụng để xử lý các hành động cho ứng dụng ở front-end. Bài viết này sẽ giới thiệu cách sử dụng directive để thực hiện các chức năng thêm sửa xóa sản phẩm trong quản lý hàng hóa.</p>
+
+<h3>Mô tả bài toán</h3>
+
+<p>Giả sử chúng ta cần xây dựng các chức năng thêm sửa xóa, tính tổng tiền các sản phẩm ở ứng dụng quản lý hàng hóa bao gồm một danh sách liệt kê các sản phẩm, mỗi sản phẩm có số lượng, đơn giá, vat, tổng tiền. Giao diện danh mục sản phẩm như sau:</p>
+
+<p><img src="/img/example-directive-angularjs/a.png" alt="Hình 1. Ví dụ minh họa"></p>
+
+<p>Trong ví dụ ở trên, người dùng có thể nhập vào tên sản phẩm, số lượng, đơn giá và thuế vat của sản phẩm vào form. Ở màn hình hiển thị người dùng có thể Edit. Khi nhấn vào Edit thì có thể chỉnh sửa thông tin rồi Save hoặc Cancel.</p>
+
+<p><img src="/img/example-directive-angularjs/b.png" alt="Hình 1. Ví dụ minh họa edit"></p>
+
+<p>Cuối cùng khi nhấn vào Delete thì xóa sản phẩm ra khỏi danh sách.</p>
+
+<p>Các bạn có thể tải ví dụ tại địa chỉ ...</p>
+
+<p>Sau khi tải ví dụ về, các bạn thực hiện các lệnh sau để chạy ví dụ ứng dụng quản lý hàng hóa minh họa như ở trên:</p>
+
+<p>$  npm install serve-static</p>
+
+<p>$  npm install connect</p>
+
+<p>$  node server</p>
+
+<h2>Các bước thực hiện xây dựng ví dụ minh họa.</h2>
+
+<ul>
+<li>Tạo các file js và html.</li>
+</ul>
+
+<p>file apptable.js chứa các xử lý controller và directive</p>
+
+<p>file index.html để hiển thị giao diện chính</p>
+
+<p>file apptable.html hiển thị vùng giao diện gọi từ apptable.js</p>
+
+<p>File apptable.js:</p>
+
+<p>Controller chứa records mẫu như sau:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$scope</span><span class="p">.</span><span class="nx">records</span> <span class="o">=</span> <span class="p">[{</span> 
+            <span class="na">id</span><span class="p">:</span> <span class="s1">'abce-dadfd-edbdhd'</span><span class="p">,</span> 
+            <span class="na">qty</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> 
+            <span class="na">description</span><span class="p">:</span> <span class="s1">'item 1'</span><span class="p">,</span> 
+            <span class="na">tax</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> 
+            <span class="na">cost</span><span class="p">:</span> <span class="mf">6.95</span> 
+        <span class="p">},</span>  
+        <span class="p">{</span> 
+            <span class="na">id</span><span class="p">:</span> <span class="s1">'abce-dadfd-3333333'</span><span class="p">,</span> 
+            <span class="na">qty</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> 
+            <span class="na">description</span><span class="p">:</span> <span class="s1">'item 2'</span><span class="p">,</span> 
+            <span class="na">tax</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> 
+            <span class="na">cost</span><span class="p">:</span> <span class="mf">9.95</span> 
+        <span class="p">}];</span></code></pre></div>
+
+<p>Ngoài ra ta tạo biến scope.columns chứa các dữ liệu động, tại đây ta có thể thêm mới trường dữ liệu và ta dùng các ng-repeat để đưa vào filed colums khi muốn hiển thị. Khi ta thay đổi dữ liệu hiển thị thì nó sẽ tự cập nhật trên trang html.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$scope</span><span class="p">.</span><span class="nx">columns</span> <span class="o">=</span> <span class="p">[</span> 
+                <span class="p">{</span> 
+                    <span class="na">name</span><span class="p">:</span> <span class="s2">"description"</span><span class="p">,</span> 
+                    <span class="na">label</span><span class="p">:</span> <span class="s2">"Description"</span><span class="p">,</span> 
+                    <span class="na">type</span><span class="p">:</span> <span class="s2">"text"</span> 
+                <span class="p">},</span> 
+                <span class="p">{</span> 
+                    <span class="na">name</span><span class="p">:</span> <span class="s2">"qty"</span><span class="p">,</span> 
+                    <span class="na">label</span><span class="p">:</span> <span class="s2">"Quantity"</span><span class="p">,</span> 
+                    <span class="na">type</span><span class="p">:</span> <span class="s2">"number"</span> 
+                <span class="p">},</span> 
+                <span class="p">{</span> 
+                    <span class="na">name</span><span class="p">:</span> <span class="s2">"cost"</span><span class="p">,</span> 
+                    <span class="na">label</span><span class="p">:</span> <span class="s2">"Cost"</span><span class="p">,</span> 
+                    <span class="na">type</span><span class="p">:</span> <span class="s2">"number"</span> 
+                <span class="p">},</span> 
+                <span class="p">{</span> 
+                    <span class="na">name</span><span class="p">:</span> <span class="s2">"tax"</span><span class="p">,</span> 
+                    <span class="na">label</span><span class="p">:</span> <span class="s2">"Tax"</span><span class="p">,</span> 
+                    <span class="na">type</span><span class="p">:</span> <span class="s2">"number"</span><span class="p">,</span> 
+                    <span class="na">editable</span><span class="p">:</span> <span class="kc">false</span> 
+                <span class="p">},</span> 
+                <span class="p">{</span> 
+                    <span class="na">name</span><span class="p">:</span> <span class="s2">"total"</span><span class="p">,</span> 
+                    <span class="na">label</span><span class="p">:</span> <span class="s2">"Total"</span><span class="p">,</span> 
+                    <span class="na">type</span><span class="p">:</span> <span class="s2">"expression"</span><span class="p">,</span> 
+                    <span class="na">expression</span><span class="p">:</span> <span class="s2">"(1+tax)*cost*qty"</span> 
+                <span class="p">},</span> 
+            <span class="p">]</span></code></pre></div>
+
+<p>Ở đây ta tạo ra các trường Description với name là description, label là Description và type là text, tương tự các trường Quantity, Cost, trường tax có thêm editable, trường total có thêm expression.</p>
+
+<ul>
+<li>Khai báo directive: trong directive chứa:</li>
+</ul>
+
+<p>** restrict: &#39;E&#39;, khai báo kiểu element</p>
+
+<p>** templateUrl: chỉ đến đường dẫn chứa tệp khai báo directive</p>
+
+<p>** link: trong link có các function được khai báo để xử lý các hành động như add, remove, edit, delete, getTemplate... làm thay đổi nội dung phần hiển thị của directive.</p>
+
+<p>Ví dụ function add item:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">$scope</span><span class="p">.</span><span class="nx">addItem</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">newItem</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="na">id</span><span class="p">:</span> <span class="nx">generateUUID</span><span class="p">(),</span>
+                    <span class="na">qty</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                    <span class="na">description</span><span class="p">:</span> <span class="s1">''</span><span class="p">,</span>
+                    <span class="na">cost</span><span class="p">:</span> <span class="mi">0</span>
+                <span class="p">};</span>
+                <span class="nx">$scope</span><span class="p">.</span><span class="nx">records</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">newItem</span><span class="p">);</span>
+                <span class="nx">$scope</span><span class="p">.</span><span class="nx">selected</span> <span class="o">=</span> <span class="nx">newItem</span><span class="p">;</span>
+            <span class="p">},</span></code></pre></div>
+
+<ul>
+<li>File apptable.html: thể hiện cách hiển thị lên giao diện thông qua các khai báo trong apptable.js.</li>
+</ul>
+
+<p>Sử dụng ng-repeat đưa các field-columns hiển thị như các trường đã khởi tạo trước đó như description, quantity, ...</p>
+
+<p>bằng cách đưa  vào nơi cần hiển thị.</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">table</span> <span class="kr">class</span><span class="o">=</span><span class="s2">"table"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">th</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"field in columns"</span><span class="o">&gt;&lt;</span><span class="sr">/th</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;&lt;</span><span class="sr">/th</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/tr</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">tr</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"item in records"</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">include</span><span class="o">=</span><span class="s2">"getTemplate(item)"</span><span class="o">&gt;&lt;</span><span class="sr">/tr</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;&lt;</span><span class="nx">a</span> <span class="nx">href</span> <span class="nx">ng</span><span class="err">:</span><span class="nx">click</span><span class="o">=</span><span class="s2">"addItem()"</span> <span class="kr">class</span><span class="o">=</span><span class="s2">"btn btn-small"</span><span class="o">&gt;</span><span class="nx">Add</span> <span class="nx">item</span><span class="o">&lt;</span><span class="sr">/a&gt;&lt;/</span><span class="nx">td</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">th</span><span class="o">&gt;&lt;</span><span class="sr">/th</span><span class="err">&gt;
+</span>            <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/tr</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/table</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/ng-template"</span> <span class="nx">id</span><span class="o">=</span><span class="s2">"display"</span><span class="o">&gt;</span>
+    
+        <span class="o">&lt;</span><span class="nx">td</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"field in columns"</span><span class="o">&gt;&lt;</span><span class="sr">/td&gt; </span><span class="err"> 
+</span>        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span>    
+        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">click</span><span class="o">=</span><span class="s2">"editItem(item)"</span><span class="o">&gt;</span><span class="nx">Edit</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">ng</span><span class="err">:</span><span class="nx">click</span><span class="o">=</span><span class="s2">"removeItem($index)"</span><span class="o">&gt;</span><span class="nx">Delete</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/ng-template"</span> <span class="nx">id</span><span class="o">=</span><span class="s2">"edit"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">td</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">repeat</span><span class="o">=</span><span class="s2">"field in columns"</span> <span class="nx">ng</span><span class="o">-</span><span class="k">switch</span><span class="o">=</span><span class="s2">"isExpression(field)"</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">input</span> <span class="nx">type</span><span class="o">=</span><span class="s2">""</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">model</span><span class="o">=</span><span class="s2">"item[field['name']]"</span> <span class="kr">class</span><span class="o">=</span><span class="s2">"input-small"</span> <span class="nx">ng</span><span class="o">-</span><span class="k">switch</span><span class="o">-</span><span class="nx">when</span><span class="o">=</span><span class="s2">"false"</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">ng</span><span class="o">-</span><span class="k">switch</span><span class="o">-</span><span class="nx">when</span><span class="o">=</span><span class="s2">"true"</span><span class="o">&gt;&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/td&gt; </span><span class="err"> 
+</span>        <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">ng</span><span class="err">:</span><span class="nx">click</span><span class="o">=</span><span class="s2">"saveItem($idx)"</span><span class="o">&gt;</span><span class="nx">Save</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">ng</span><span class="err">:</span><span class="nx">click</span><span class="o">=</span><span class="s2">"reset()"</span><span class="o">&gt;</span><span class="nx">Cancel</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;
+</span>        <span class="o">&lt;</span><span class="sr">/td</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/div&gt;</span></code></pre></div>
+
+<p>Sử dụng ng-template với function getTemplate cho mỗi cách hiển thi khác nhau. Khi ở display: thực hiện edit and delete còn khi ở edit: thực hiện chỉnh sửa hoặc cancel.</p>
+
+<ul>
+<li>File index.html</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;!</span><span class="nx">DOCTYPE</span> <span class="nx">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">html</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">app</span><span class="o">=</span><span class="s2">"apptableExample"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Return</span> <span class="nx">directive</span><span class="o">&lt;</span><span class="sr">/title</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"lib/bootstrap/bootstrap.css"</span> <span class="nx">rel</span><span class="o">=</span><span class="s2">"stylesheet"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="s2">"lib/bootstrap/bootstrap-theme.css"</span> <span class="nx">rel</span><span class="o">=</span><span class="s2">"stylesheet"</span> <span class="o">/&gt;</span>
+    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"lib/angular/angular.js"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"js/apptable.js"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">"text/ng-template"</span> <span class="nx">id</span><span class="o">=</span><span class="s2">"display"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">body</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">controller</span><span class="o">=</span><span class="s2">"apptableCtrl"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">apptable</span> <span class="nx">records</span> <span class="o">=</span> <span class="s2">"records"</span> <span class="nx">columns</span><span class="o">=</span><span class="s2">"columns"</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="sr">/apptable</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">Total</span><span class="err">:</span> <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span><span class="nx">Summary</span> <span class="nx">money</span><span class="err">:</span> <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/body</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/html&gt;</span></code></pre></div>
+
+<p>Tại đây ta thêm directive apptable vào để hiển thị vùng dữ liệu mà directive đó tác động.</p>
+
+<p>Ở đây có thêm vùng để hiển thị tính tổng tiền, function chịu tác động bởi controller bên ngoài directive nên không nằm trong vùng hiển thị tác động của directive.</p>
+
+<p>Bài viết này giới thiệu và hướng dẫn các bước sử dụng directive để xây dựng ứng dụng quản lý sản phẩm đơn giản. Hi vọng nó giúp các bạn áp dụng các custom directive vào các xử lý phức tạp hơn của ứng dụng của mình.</p>
+
+<h2>Tài liệu tham khảo</h2>
+
+<ul>
+<li><a href="https://docs.angularjs.org/guide/directive">Directive - angularjs.org</a></li>
+<li>[]</li>
+</ul>
+
+	</section>
+	<footer>
+		
+	</footer>
+</article>
+</div>
+</div>
+      </section>
+      <footer class="grid site-footer">
+        <p>&copy;&nbsp;Dong Diem Thuy's Blog</p>
+        <!--<p><small>Powered by <a href="http://jekyllrb.com" target="_blank"><em>Jekyll</em></a> using <a href="http://bitwiser.in/bitwiser/" target="_blank"><em>Bitwiser</em></a> theme.</small></p>-->
+      </footer>
+      
+      <script src="/js/headroom.min.js"></script>
+      <script>
+        var menu, headroom;
+        function stickyHeader(){
+          menu = document.querySelector('.main-nav');
+          var headroom = new Headroom(menu);
+          headroom.init();
+        }
+        window.onload = stickyHeader;
+      </script>
+    </body>
+</html>

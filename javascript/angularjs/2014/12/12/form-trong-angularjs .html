@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Forms trong Angularjs | Dong Diem Thuy's Blog</title>
+        
+          <meta name="author" content="dongdiemthuy">
+        
+        <meta name="title" content="Forms trong Angularjs" >
+        <link rel="icon" type="image/png" href="/favicon.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+	<meta name="keywords" content="some, relevant, keywords, for, usage, in metatags" />
+
+
+  <meta name="description" content="1. Giới thiệu về Internationlization (i18n) và locationlization (l10n)
+">
+  <meta property="og:description" content="1. Giới thiệu về Internationlization (i18n) và locationlization (l10n)
+" />
+  <meta name="twitter:description" content="1. Giới thiệu về Internationlization (i18n) và locationlization (l10n)
+" />
+
+<meta property="og:title" content="Forms trong Angularjs" />
+<meta property="og:type" content="article" />
+<meta property="og:image" content="/sharer.png" />
+<meta property="og:url" content="/javascript/angularjs/2014/12/12/form-trong-angularjs%20.html" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="Forms trong Angularjs" />
+<meta name="twitter:image" content="/sharer.png" />
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/monokai.css">
+    </head>
+    <body class="wrap">
+      <!--[if lt IE 8]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+      <![endif]-->
+      <header>
+  <h1 class="site-title"><a href="/">Dong Diem Thuy's Blog</a></h1>
+  <nav class="main-nav">
+    <div class="grid">
+      <ul>
+        <li><a href="/">Home</a></li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
+      <section class="content">
+        <div id="home" class="grid post">
+<div class="unit whole">
+<article>
+	<header>
+		<h1>Forms trong Angularjs</h1>
+		<p class="meta">
+			<time class="timeago postlist-meta" datetime="2014-12-12">December 12, 2014</time>
+			<a class="button blue share" href="#" target="_blank" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+window.location.href,'_blank','height=300,width=600');return false;">Share on fb
+			</a>
+			
+				<a class="button blue share" href="#" target="_blank" onclick="window.open('https://twitter.com/share?url='+window.location.href,'_blank','height=300,width=600');return false;">Share on twitter
+				</a>
+			
+		</p>
+	</header>
+	<section>
+		<h2>1. Giới thiệu về Internationlization (i18n) và locationlization (l10n)</h2>
+
+<p><a href="https://docs.angularjs.org/guide/i18n">Internationalization</a> (quốc tế hóa) gọi tắt là i18n (18 là số kí tự còn lại trong chữ khi viết tắt) là sự hỗ trợ phát triển ứng dụng theo cách mà có thể bản địa hóa cho ngôn ngữ và văn hóa một cách dễ dàng. (có thể hiểu từ một chuỗi hoặc ký tự cụ thể tạo thành 1 chuỗi hoặc ký tự chung)</p>
+
+<p><a href="https://docs.angularjs.org/guide/i18n">Localization</a> (bản địa hóa) gọi tắt là l10n (10 là số kí tự còn lại trong chữ khi viết tắt) là sự hỗ trợ các ứng dụng có thể thích ứng với văn bản, cho phép người dùng sử dụng được văn bản trong một khu vực quốc gia cụ thể. (có thể hiểu từ một chuỗi hoặc ký tự dùng chung tạo thành nhiều chuỗi hoặc ký tự dùng riêng cho mỗi vùng quốc gia, khu vực)</p>
+
+<p>Hình sau minh họa cho khái niệm i18n và l10n:</p>
+
+<p><img src="/img/i18n-and-l10n-trong-angularjs/i18n_and_l10n_example.png" alt="Hình 1. Minh họa khái niệm i18n và l10n"></p>
+
+<p>Trong hình minh họa ở trên ta thấy form chuẩn chung sẽ gồm PRODUCT<em>NAME và định dạng ngày tháng năm là 2014-12-15. Sự quốc tế hóa thể hiện khi họ sử dụng form tiếng Anh dể chuyển từ product name chuyển thành PRODUCT</em>NAME và Mon, 15 Dec, 2014 chuyển thành 2014-12-15. Sự bản địa hóa thể hiện ở chỗ là từ PRODUCT_NAME ở form chuẩn chung, ta có thể bản địa hóa ra nhiều ngôn ngữ khác nhau ví dụ tiếng Việt, tiếng Anh, tiếng Pháp tương ứng với Tên sản phẩm, Product name, nom du produit. Tương tự đối với định dạng ngày tháng năm từ form chuẩn chung, cũng có thể bản địa ra tương ứng là Thứ 2, 15/12/2014; Mon, 15 Dec, 2014; Lun 12 desceember 2014. </p>
+
+<h2>2.  i18n, l10n trong AngularJS</h2>
+
+<p>AngularJS hỗ trợ i18n, l10n với định dạng date, number và currency filter. </p>
+
+<p>Ngoài ra AngularJS còn hỗ trợ bản địa hóa thông qua ngPluralize.</p>
+
+<h3>2.1 Bản địa hóa với phần lõi bằng các gói angular-locale</h3>
+
+<p>Tất cả các components localizable Angular phụ thuộc vào bộ quy tắc (locale-specific) được cung cấp bởi service $locale.</p>
+
+<p>$locale là service trong module ng. Nó cung cấp các quy định bản địa hóa cho các Angular components.</p>
+
+<p>id – {string} – locale id formatted as languageId-countryId (e.g. en-us)</p>
+
+<p>Có thể import các thư viện locale như angular-locale-en.js hoặc angular-locale_vi-vn.js. Tham khảo thư viện tại <a href="https://code.angularjs.org/1.0.2/i18n/">i18n</a></p>
+
+<ul>
+<li>Cách cung cấp qui tắc locale trong AngularJS</li>
+</ul>
+
+<p>Cách 1: Dùng bộ quy tắc Pre-bundled 
+Bạn có thể cài gói các tập tin locale mong muốn bằng cách kết hợp các nội dung của tập tin địa phương cụ thể đến phía cuối trong tệp angular.js hoặc angular.min.js</p>
+
+<p>Ví dụ: Để tạo ra một tập tin angular.js có chứa quy tắc nội địa hóa cho miền địa phương ở Đức, bạn có thể làm như sau:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">cat</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">js</span> <span class="nx">i18n</span><span class="o">/</span><span class="nx">angular</span><span class="o">-</span><span class="nx">locale_de</span><span class="o">-</span><span class="nx">de</span><span class="p">.</span><span class="nx">js</span> <span class="o">&gt;</span> <span class="nx">angular_de</span><span class="o">-</span><span class="nx">de</span><span class="p">.</span><span class="nx">js</span></code></pre></div>
+
+<p>Khi các ứng dụng có chứa angular_de-de.js mà không phải angular.js , AngularJS được tự động cấu hình sẵn với các quy định nội địa hóa các địa phương ở Đức.</p>
+
+<p>Cách 2: Including a locale script trong trang index.html</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">html</span> <span class="nx">ng</span><span class="o">-</span><span class="nx">app</span><span class="o">&gt;</span>
+ <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+<span class="err">…</span><span class="p">.</span>
+   <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"angular.js"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span>   <span class="o">&lt;</span><span class="nx">script</span> <span class="nx">src</span><span class="o">=</span><span class="s2">"i18n/angular-locale_de-de.js"</span><span class="o">&gt;&lt;</span><span class="sr">/script</span><span class="err">&gt;
+…</span><span class="p">.</span>
+ <span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
+</span><span class="o">&lt;</span><span class="sr">/html&gt;</span></code></pre></div>
+
+<h3>2.2 Bản địa hóa với ngPluralize</h3>
+
+<p>ngPluralize là một directive trong module ng để hiển thị các thông báo theo quy định bản địa hóa en-US (với số lượng nhiều hơn một thì sẽ quy định cách hiển thị như thế nào)</p>
+
+<ul>
+<li><p>Plural categories: Có 2 plural categories mặc định trong Angular với địa phương en-US là &quot;one&quot; và &quot;other&quot;.</p></li>
+<li><p>Cấu hình ngPluralize</p></li>
+</ul>
+
+<p>Bằng cách cung cấp 2 thuộc tính &quot;count&quot; và &quot;then&quot;, có thể có thêm &quot;offset&quot;</p>
+
+<p>Giá trị của &quot;count&quot; có thể là string hoặc expression. Các thuộc tính sau khi mapping giữa pluralize và actual string sẽ được hiển thị. </p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ng</span><span class="o">-</span><span class="nx">pluralize</span> <span class="nx">count</span><span class="o">=</span><span class="s2">"personCount"</span>
+                 <span class="nx">when</span><span class="o">=</span><span class="s2">"{'0': 'Nobody is viewing.',
+                     'one': '1 person is viewing.',
+                     'other': '{} people are viewing.'}"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="sr">/ng-pluralize&gt;</span></code></pre></div>
+
+<ul>
+<li>Cấu hình ngPluralize với offset: các thuộc tính offset cho phép bù đắp 1 số bằng bất kỳ giá trị nào mong muốn.</li>
+</ul>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="o">&lt;</span><span class="nx">ng</span><span class="o">-</span><span class="nx">pluralize</span> <span class="nx">count</span><span class="o">=</span><span class="s2">"personCount"</span> <span class="nx">offset</span><span class="o">=</span><span class="mi">2</span>
+              <span class="nx">when</span><span class="o">=</span><span class="s2">"{'0': 'Nobody is viewing.',
+                     '1': ' is viewing.',
+                     '2': ' and  are viewing.',
+                     'one': ',  and one other person are viewing.',
+                     'other': ',  and {} other people are viewing.'}"</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="sr">/ng-pluralize&gt;</span></code></pre></div>
+
+<p>Ví dụ minh họa:</p>
+
+<p><iframe src="http://embed.plnkr.co/2kfZxg34dNP2XBWlfwEG/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="250px" width="100%"></iframe></p>
+
+<h3>2.3.Một số lưu ý khi sử dụng i18n trong AngularJS</h3>
+
+<ul>
+<li>Currency symbol</li>
+</ul>
+
+<p>Filter tiền tệ trong Angular cho phép sử dụng các ký hiệu tiền tệ mặc định từ service locale hoặc tự định nghĩa filter tiền tệ riêng. Nếu ứng dụng chỉ sử dụng ở 1 địa phương, tốt nhất là sử dụng kí hiệu mặc định. Nếu như biết sẽ có thêm những người ở nơi khác sử dụng ứng dụng thì nên cung cấp rõ ràng một biểu tượng tiền tệ.</p>
+
+<p>Ví dụ bạn đang viết ứng dụng thể hiện giá của một mặt hàng là 100USD. Ở đây phải sử dụng filter cho tiền tệ.
+{{100 | currency }}</p>
+
+<p>Nếu ứng dụng bạn đang ở locale en-US nó sẽ hiển thị trên trình duyệt là $100, nếu 1 người nào đó ở Pháp truy cập và xem thì trình duyệt hiển thị 100€. Vấn đề ở đây là $100 khác so với 100€.</p>
+
+<p>Vì thế nếu ta thay đổi {{100 | currency: &quot;USD&quot; }} thì Angular sẽ luôn hiển thị giá tiền là $100 ở bất kì địa phương nào.</p>
+
+<ul>
+<li>Translation length</li>
+</ul>
+
+<p>Định dạng strings/datetime có thể khác nhau về chiều dài. Ví dụ June 5, 2013 sẽ dịch qua tiếng Tây Ban Nha là 5 de junio de 2013.</p>
+
+<p>Vì vậy khi quốc tế hóa ứng dụng, cần làm thử nghiệm kỹ trước để đảm bảo các giao diện người dùng thể hiện kết quả như mong đợi ngay cả khi kích thước nội dung hiển thị khác nhau.</p>
+
+<ul>
+<li>Timzone</li>
+</ul>
+
+<p>Filter datetime trong Angular sử dụng các thiết lập múi giờ của trình duyệt. Cùng 1 ứng dụng sẽ hiển thị thông tin thời gian khác nhau tùy thuộc thiết lập múi giờ của máy tính đang chạy ứng dụng. Không thể dùng Javascript hay Angular để hỗ trợ hiển thị ngày với một múi giờ theo quy định của riêng người lập trình.</p>
+
+<h2>3. Các kĩ thuật đa ngôn ngữ hóa ứng dụng</h2>
+
+<h3>3.1 Đa ngôn ngữ hóa giao diện</h3>
+
+<p>Thay vì tạo ra nhiều template khác nhau để hiển thị theo từng ngôn ngữ, AngularJS hỗ trợ cách dùng angular-translate, là một module của i18n cho phép dịch và hiển thị chuỗi trên giao diện người dùng bằng cách tạo ra các tệp JSON đại diện cho dữ liệu dịch của mỗi ngôn ngữ.</p>
+
+<p>Sau khi download angular-translate.js, ta nhúng trong HTML để sử dụng.</p>
+
+<p>Cách đặt tên file JSON: &quot;translation_&quot; + locale id + &quot;.json&quot; </p>
+
+<p>Ví dụ: translation&ndash;en.json, translation&ndash;nb-no.json...</p>
+
+<p>File chứa JSON của English(&quot;en&quot;):</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>  
+    <span class="s2">"COLOR"</span> <span class="err">:</span> <span class="s2">"Color"</span><span class="p">,</span>
+    <span class="s2">"HELLO"</span> <span class="err">:</span> <span class="s2">"Hello"</span><span class="p">,</span>
+    <span class="s2">"HELLO_WORLD"</span> <span class="err">:</span> <span class="s2">" Hello World!"</span>
+    <span class="s2">"NAME"</span> <span class="err">:</span><span class="s2">"My name is Thuy"</span>
+<span class="p">}</span></code></pre></div>
+
+<p>File chứa JSON của Norwegian - Nauy(&quot;nb-no&quot;):</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>  
+    <span class="s2">"COLOR"</span> <span class="err">:</span> <span class="s2">"Farge"</span><span class="p">,</span>
+    <span class="s2">"HELLO"</span> <span class="err">:</span> <span class="s2">"Hallo"</span><span class="p">,</span>
+    <span class="s2">"HELLO_WORLD"</span> <span class="err">:</span> <span class="s2">"Hallo verden!"</span>
+    <span class="s2">"NAME"</span> <span class="err">:</span> <span class="s2">"Mitt navn er Thuy"</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Tạo translation service:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">app</span><span class="p">.</span><span class="nx">service</span><span class="p">(</span><span class="s1">'translationService'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$resource</span><span class="p">)</span> <span class="p">{</span>  
+        <span class="k">this</span><span class="p">.</span><span class="nx">getTranslation</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">language</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">languageFilePath</span> <span class="o">=</span> <span class="s1">'somepath_'</span> <span class="o">+</span> <span class="nx">language</span> <span class="o">+</span> <span class="s1">'.json'</span><span class="p">;</span>
+            <span class="nx">$resource</span><span class="p">(</span><span class="nx">languageFilePath</span><span class="p">).</span><span class="nx">get</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nx">$scope</span><span class="p">.</span><span class="nx">translation</span> <span class="o">=</span> <span class="nx">data</span><span class="p">;</span>
+            <span class="p">});</span>
+        <span class="p">};</span>
+    <span class="p">};</span></code></pre></div>
+
+<p>Controller cần gọi đến translate Service:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">app</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">'myController'</span><span class="p">,[</span><span class="s1">'$scope'</span><span class="p">,</span> <span class="s1">'translationService'</span><span class="p">,</span> 
+<span class="kd">function</span> <span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">translationService</span><span class="p">){</span>  
+
+  <span class="c1">//Run translation if selected language changes</span>
+  <span class="nx">$scope</span><span class="p">.</span><span class="nx">translate</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+       <span class="nx">translationService</span><span class="p">.</span><span class="nx">getTranslation</span><span class="p">(</span><span class="nx">$scope</span><span class="p">,</span> <span class="nx">$scope</span><span class="p">.</span><span class="nx">selectedLanguage</span><span class="p">);</span>
+   <span class="p">};</span>
+   <span class="c1">//Init</span>
+   <span class="nx">$scope</span><span class="p">.</span><span class="nx">selectedLanguage</span> <span class="o">=</span> <span class="s1">'en'</span><span class="p">;</span>
+   <span class="nx">$scope</span><span class="p">.</span><span class="nx">translate</span><span class="p">();</span>
+<span class="p">}]);</span></code></pre></div>
+
+<p>Đưa dữ liệu vào hiển thị trong HTML:</p>
+
+<div class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{{</span><span class="nx">translation</span><span class="p">.</span><span class="nx">HELLO_WORLD</span><span class="p">}}</span></code></pre></div>
+
+<p>Và HTML sẽ hiển thị nội dung với locale id là &quot;en&quot;</p>
+
+<p><iframe src="http://embed.plnkr.co/YdscxTwrAFauyeZg7nWh/preview" style="border:0px #FFFFFF none;" name="filter" scrolling="no" frameborder="1" marginheight="0px" marginwidth="0px" height="350px" width="100%"></iframe></p>
+
+<h3>3.2 Bản địa hóa ngôn ngữ</h3>
+
+<p>Với một ứng dụng web, có thể cần phải bản địa hóa nó sang các ngôn ngữ khác nhau, ta không cần phải sao chép các mã HTML để tạo ra nhiều ngôn ngữ, với AngularJS hỗ trợ angular-l10n để thực hiện điều đó.</p>
+
+<p>Bài viết này giới thiệu về quốc tế hóa và bản địa hóa trong AngularJS cùng với cách áp dụng i18n cũng như l10n để bản địa hóa giao diện, ngôn ngữ.
+Ngoài ra có những lưu ý khi sử dụng i18n trong AngularJS, bản địa hóa với ngPluralize.</p>
+
+<h2>Tài liệu tham khảo</h2>
+
+<ul>
+<li><a href="https://docs.angularjs.org/guide/i18n">Internationalization - angularjs.org</a></li>
+<li><a href="https://docs.angularjs.org/guide/i18n">Localization - angularjs.org</a></li>
+<li><a href="https://code.angularjs.org/1.0.2/i18n/">locale - codeangular</a></li>
+<li><a href="http://angular-translate.github.io/">angularjs - translate</a></li>
+</ul>
+
+	</section>
+	<footer>
+		
+	</footer>
+</article>
+</div>
+</div>
+      </section>
+      <footer class="grid site-footer">
+        <p>&copy;&nbsp;Dong Diem Thuy's Blog</p>
+        <!--<p><small>Powered by <a href="http://jekyllrb.com" target="_blank"><em>Jekyll</em></a> using <a href="http://bitwiser.in/bitwiser/" target="_blank"><em>Bitwiser</em></a> theme.</small></p>-->
+      </footer>
+      
+      <script src="/js/headroom.min.js"></script>
+      <script>
+        var menu, headroom;
+        function stickyHeader(){
+          menu = document.querySelector('.main-nav');
+          var headroom = new Headroom(menu);
+          headroom.init();
+        }
+        window.onload = stickyHeader;
+      </script>
+    </body>
+</html>
